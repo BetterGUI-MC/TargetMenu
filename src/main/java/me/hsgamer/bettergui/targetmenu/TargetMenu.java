@@ -3,7 +3,6 @@ package me.hsgamer.bettergui.targetmenu;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import me.hsgamer.bettergui.config.impl.MessageConfig;
 import me.hsgamer.bettergui.hook.PlaceholderAPIHook;
 import me.hsgamer.bettergui.object.LocalVariable;
 import me.hsgamer.bettergui.object.LocalVariableManager;
@@ -63,10 +62,6 @@ public class TargetMenu extends SimpleMenu {
       return false;
     }
     OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-    if (target == null) {
-      CommonUtils.sendMessage(player, MessageConfig.PLAYER_NOT_FOUND.getValue());
-      return false;
-    }
     targetPlayers.put(player.getUniqueId(), target.getUniqueId());
     return super.createInventory(player, args, bypass);
   }
