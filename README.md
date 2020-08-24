@@ -1,3 +1,5 @@
+### [Video](https://youtu.be/fH0l4whkHJQ)
+
 ## Menu Types
 * `target`: An expansion of Simple Menu with the target variables
   * Open Command: 
