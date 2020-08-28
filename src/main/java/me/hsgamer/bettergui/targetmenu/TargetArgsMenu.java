@@ -2,7 +2,7 @@ package me.hsgamer.bettergui.targetmenu;
 
 import java.util.Arrays;
 import me.hsgamer.bettergui.object.menu.ArgsMenu;
-import me.hsgamer.bettergui.util.CommonUtils;
+import me.hsgamer.bettergui.util.MessageUtils;
 import org.bukkit.entity.Player;
 
 public class TargetArgsMenu extends ArgsMenu {
@@ -16,7 +16,7 @@ public class TargetArgsMenu extends ArgsMenu {
   @Override
   public boolean createInventory(Player player, String[] args, boolean bypass) {
     if (args.length < 1) {
-      CommonUtils.sendMessage(player, Main.TARGET_REQUIRED.getValue());
+      MessageUtils.sendMessage(player, Main.TARGET_REQUIRED.getValue());
       return false;
     }
     targetManager.storeTarget(player, args[0]);
