@@ -13,7 +13,7 @@ public final class Main extends BetterGUIAddon {
     @Override
     public boolean onLoad() {
         TARGET_REQUIRED.setConfig(getInstance().getMessageConfig());
-        getInstance().getMessageConfig().saveConfig();
+        getInstance().getMessageConfig().save();
         return true;
     }
 
