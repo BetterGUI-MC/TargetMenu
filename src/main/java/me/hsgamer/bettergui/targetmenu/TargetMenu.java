@@ -1,7 +1,8 @@
 package me.hsgamer.bettergui.targetmenu;
 
-import me.hsgamer.bettergui.lib.core.bukkit.utils.MessageUtils;
 import me.hsgamer.bettergui.menu.SimpleMenu;
+import me.hsgamer.hscore.bukkit.utils.MessageUtils;
+import me.hsgamer.hscore.config.Config;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -9,19 +10,22 @@ import java.util.Arrays;
 public class TargetMenu extends SimpleMenu {
 
     private final TargetManager targetManager;
+    private final Main main;
 
-    public TargetMenu(String name) {
-        super(name);
-        this.targetManager = new TargetManager(this);
+    public TargetMenu(Main main, Config config) {
+        super(config);
+        this.main = main;
+        targetManager = new TargetManager(this);
     }
 
+
     @Override
-    public boolean createInventory(Player player, String[] args, boolean bypass) {
+    public boolean create(Player player, String[] args, boolean bypass) {
         if (args.length < 1) {
-            MessageUtils.sendMessage(player, Main.TARGET_REQUIRED.getValue());
+            MessageUtils.sendMessage(player, main.getExtraMessageConfig().targetRequired);
             return false;
         }
         targetManager.storeTarget(player, args[0]);
-        return super.createInventory(player, Arrays.copyOfRange(args, 1, args.length), bypass);
+        return super.create(player, Arrays.copyOfRange(args, 1, args.length), bypass);
     }
 }

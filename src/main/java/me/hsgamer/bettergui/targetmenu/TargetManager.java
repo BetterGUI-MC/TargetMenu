@@ -1,9 +1,7 @@
 package me.hsgamer.bettergui.targetmenu;
 
 import me.hsgamer.bettergui.api.menu.Menu;
-import me.hsgamer.bettergui.hook.PlaceholderAPIHook;
-import me.hsgamer.bettergui.lib.core.variable.VariableManager;
-import me.hsgamer.bettergui.manager.PluginVariableManager;
+import me.hsgamer.bettergui.util.StringReplacerApplier;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -18,22 +16,23 @@ class TargetManager {
     private final Map<UUID, UUID> targetPlayers = new HashMap<>();
 
     public TargetManager(Menu menu) {
-        PluginVariableManager.register("menu_" + menu.getName() + "_target_", (s, uuid) -> {
+        menu.getVariableManager().register("target_", (s, uuid) -> {
             s = s.trim();
             if (targetPlayers.containsKey(uuid)) {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(targetPlayers.get(uuid));
+                String variable;
                 if (s.toLowerCase().startsWith(PAPI)) {
-                    return PlaceholderAPIHook.hasValidPlugin() ? PlaceholderAPIHook.setPlaceholders("%" + s.substring(PAPI.length()) + "%", target) : null;
+                    variable = "%" + s.substring(PAPI.length()) + "%";
                 } else {
-                    String variable = "{" + s + "}";
-                    return VariableManager.setVariables(variable, target.getUniqueId());
+                    variable = "{" + s + "}";
                 }
+                return StringReplacerApplier.replace(variable, target.getUniqueId(), menu);
             }
             return null;
         });
     }
 
-    @SuppressWarnings("deprecated")
+    @SuppressWarnings("deprecation")
     public void storeTarget(Player player, String target) {
         OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(target);
         targetPlayers.put(player.getUniqueId(), targetPlayer.getUniqueId());
