@@ -18,6 +18,7 @@
   <description>A targeted menu for BetterGUI</description>
 
   <properties>
+    <plugin.version>7.6</plugin.version>
     <project.mainClass>me.hsgamer.bettergui.targetmenu.Main</project.mainClass>
   </properties>
 

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
+@Deprecated
 public class TargetMenu extends SimpleMenu {
 
     private final TargetManager targetManager;
@@ -14,6 +15,7 @@ public class TargetMenu extends SimpleMenu {
 
     public TargetMenu(Main main, Config config) {
         super(config);
+        main.getPlugin().getLogger().warning("Target Menu is deprecated. Please use Simple Menu with Target Argument Processor instead");
         this.main = main;
         targetManager = new TargetManager(this);
     }

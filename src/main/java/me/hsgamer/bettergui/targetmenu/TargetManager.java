@@ -33,8 +33,12 @@ class TargetManager {
     }
 
     @SuppressWarnings("deprecation")
-    public void storeTarget(Player player, String target) {
+    public void storeTarget(UUID uuid, String target) {
         OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(target);
-        targetPlayers.put(player.getUniqueId(), targetPlayer.getUniqueId());
+        targetPlayers.put(uuid, targetPlayer.getUniqueId());
+    }
+
+    public void storeTarget(Player player, String target) {
+        storeTarget(player.getUniqueId(), target);
     }
 }

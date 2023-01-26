@@ -1,5 +1,6 @@
 package me.hsgamer.bettergui.targetmenu;
 
+import me.hsgamer.bettergui.builder.ArgumentProcessorBuilder;
 import me.hsgamer.bettergui.builder.MenuBuilder;
 import me.hsgamer.hscore.bukkit.addon.PluginAddon;
 import me.hsgamer.hscore.bukkit.config.BukkitConfig;
@@ -19,6 +20,8 @@ public final class Main extends PluginAddon {
     public void onEnable() {
         MenuBuilder.INSTANCE.register(config -> new TargetMenu(this, config), "target");
         MenuBuilder.INSTANCE.register(config -> new TargetArgsMenu(this, config), "target-args");
+
+        ArgumentProcessorBuilder.INSTANCE.register(menu -> new TargetArgumentProcessor(this, menu), "target");
     }
 
     @Override
