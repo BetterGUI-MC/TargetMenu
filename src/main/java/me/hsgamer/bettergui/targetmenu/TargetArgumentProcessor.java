@@ -2,21 +2,44 @@ package me.hsgamer.bettergui.targetmenu;
 
 import me.hsgamer.bettergui.api.argument.ArgumentProcessor;
 import me.hsgamer.bettergui.api.menu.Menu;
+import me.hsgamer.bettergui.util.StringReplacerApplier;
 import me.hsgamer.hscore.bukkit.utils.BukkitUtils;
 import me.hsgamer.hscore.bukkit.utils.MessageUtils;
 import me.hsgamer.hscore.common.Pair;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.util.*;
 
 public class TargetArgumentProcessor implements ArgumentProcessor {
+    private static final String PAPI = "papi_";
+    private final Map<UUID, UUID> targetPlayers = new HashMap<>();
     private final Main main;
     private final Menu menu;
-    private final TargetManager targetManager;
 
     public TargetArgumentProcessor(Main main, Menu menu) {
         this.main = main;
         this.menu = menu;
-        this.targetManager = new TargetManager(menu);
+        menu.getVariableManager().register("target_", (s, uuid) -> {
+            s = s.trim();
+            if (targetPlayers.containsKey(uuid)) {
+                OfflinePlayer target = Bukkit.getOfflinePlayer(targetPlayers.get(uuid));
+                String variable;
+                if (s.toLowerCase().startsWith(PAPI)) {
+                    variable = "%" + s.substring(PAPI.length()) + "%";
+                } else {
+                    variable = "{" + s + "}";
+                }
+                return StringReplacerApplier.replace(variable, target.getUniqueId(), menu);
+            }
+            return null;
+        });
+    }
+
+    @SuppressWarnings("deprecation")
+    private void storeTarget(UUID uuid, String target) {
+        OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(target);
+        targetPlayers.put(uuid, targetPlayer.getUniqueId());
     }
 
     @Override
@@ -25,7 +48,7 @@ public class TargetArgumentProcessor implements ArgumentProcessor {
             MessageUtils.sendMessage(uuid, main.getExtraMessageConfig().targetRequired);
             return Optional.empty();
         }
-        targetManager.storeTarget(uuid, args[0]);
+        storeTarget(uuid, args[0]);
         return Optional.of(Arrays.copyOfRange(args, 1, args.length));
     }
 
