@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TargetArgumentProcessor implements ArgumentProcessor {
     private static final String PAPI = "papi_";
@@ -58,7 +59,11 @@ public class TargetArgumentProcessor implements ArgumentProcessor {
             return Pair.of(Optional.of(Collections.emptyList()), new String[0]);
         }
         if (args.length == 1) {
-            return Pair.of(Optional.of(BukkitUtils.getAllPlayerNames()), new String[0]);
+            String arg = args[0].toLowerCase();
+            List<String> list = BukkitUtils.getAllPlayerNames().stream()
+                    .filter(name -> arg.isEmpty() || name.toLowerCase().startsWith(arg))
+                    .collect(Collectors.toList());
+            return Pair.of(Optional.of(list), new String[0]);
         }
         return Pair.of(Optional.empty(), Arrays.copyOfRange(args, 1, args.length));
     }
