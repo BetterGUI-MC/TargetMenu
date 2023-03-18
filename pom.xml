@@ -11,13 +11,14 @@
   </parent>
 
   <artifactId>TargetMenu</artifactId>
-  <version>4.1</version>
+  <version>4.2</version>
   <packaging>jar</packaging>
 
   <name>TargetMenu</name>
   <description>A targeted menu for BetterGUI</description>
 
   <properties>
+    <plugin.version>8.6</plugin.version>
     <project.mainClass>me.hsgamer.bettergui.targetmenu.Main</project.mainClass>
   </properties>
 
